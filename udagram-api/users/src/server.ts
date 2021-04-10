@@ -28,17 +28,17 @@ import {V0_USER_MODELS} from './controllers/v0/model.index';
     origin: config.url,
   }));
 
-  app.use('/api/v0/user', IndexRouter);
+  app.use('/api/v0/users', IndexRouter);
 
   // Root URI call
   app.get( '/', async ( req, res ) => {
-    res.send( '/api/v0/user' );
+    res.send( '/api/v0/users' );
   } );
 
 
   // Start the Server
   app.listen( port, () => {
-    console.log( `server running ${config.url}` );
+    console.log( `server running ${config.url} ${port}` );
     console.log( `press CTRL+C to stop server` );
   } );
 })();
