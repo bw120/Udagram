@@ -16,12 +16,36 @@ before_script:
 script:
 # build feed API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/feed && npm install && npm run build
-  - docker build -t udagram-api-feed .
+  - docker build \
+    -t udagram-api-feed \
+    --build-arg POSTGRES_USERNAME=$POSTGRES_USERNAME \
+    --build-arg POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+    --build-arg POSTGRES_HOST=$POSTGRES_HOST \
+    --build-arg POSTGRES_DB=$POSTGRES_DB \
+    --build-arg AWS_BUCKET=$AWS_BUCKET \
+    --build-arg AWS_REGION=$AWS_REGION \
+    --build-arg AWS_PROFILE=$AWS_PROFILE \
+    --build-arg JWT_SECRET=$JWT_SECRET \
+    --build-arg URL=$URL \
+    --build-arg PORT=$PORT \
+    --no-cache .
   - docker tag udagram-api-feed bw120/udagram-api-feed:latest
 
 # build users API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/users && npm install && npm run build
-  - docker build -t udagram-api-users .
+  - docker build \
+    -t udagram-api-users \
+    --build-arg POSTGRES_USERNAME=$POSTGRES_USERNAME \
+    --build-arg POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+    --build-arg POSTGRES_HOST=$POSTGRES_HOST \
+    --build-arg POSTGRES_DB=$POSTGRES_DB \
+    --build-arg AWS_BUCKET=$AWS_BUCKET \
+    --build-arg AWS_REGION=$AWS_REGION \
+    --build-arg AWS_PROFILE=$AWS_PROFILE \
+    --build-arg JWT_SECRET=$JWT_SECRET \
+    --build-arg URL=$URL \
+    --build-arg PORT=$PORT \
+    --no-cache .
   - docker tag udagram-api-users bw120/udagram-api-users:latest
 
 # build frontend container
@@ -31,4 +55,6 @@ script:
 
 after_success:
   - echo "DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
-  - docker push bw120/slow-node
+  - docker push bw120/udagram-api-feed
+  - docker push bw120/udagram-api-users
+  - docker push bw120/udagram-frontend
