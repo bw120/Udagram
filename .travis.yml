@@ -29,7 +29,7 @@ script:
     --build-arg URL=$URL \
     --build-arg PORT=$PORT \
     --no-cache .
-  - docker tag udagram-api-feed bw120/udagram-api-feed:latest
+  - docker tag udagram-api-feed bw120/udagram-api-feed
 
 # build users API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/users && npm install && npm run build
@@ -46,12 +46,12 @@ script:
     --build-arg URL=$URL \
     --build-arg PORT=$PORT \
     --no-cache .
-  - docker tag udagram-api-users bw120/udagram-api-users:latest
+  - docker tag udagram-api-users bw120/udagram-api-users
 
 # build frontend container
   - cd $TRAVIS_BUILD_DIR/udagram-frontend
   - docker build -t udagram-frontend .
-  - docker tag udagram-frontend bw120/udagram-frontend:latest
+  - docker tag udagram-frontend bw120/udagram-frontend
 
 after_success:
   - echo "DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
