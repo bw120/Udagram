@@ -15,6 +15,12 @@ before_script:
 
 script:
 # build feed API container
+  - echo 1
+  - echo $POSTGRES_USERNAME
+  - echo 2
+  - echo POSTGRES_USERNAME
+  - echo 3
+  - echo "POSTGRES_USERNAME"
   - cd $TRAVIS_BUILD_DIR/udagram-api/feed && npm install && npm run build
   - docker build \
     -t udagram-api-feed \
@@ -33,7 +39,6 @@ script:
 
 # build users API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/users && npm install && npm run build
-  - echo "POSTGRES_USERNAME"
   - docker build \
     -t udagram-api-users \
     --build-arg POSTGRES_USERNAME="POSTGRES_USERNAME" \
