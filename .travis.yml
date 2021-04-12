@@ -30,7 +30,7 @@ script:
   - docker tag udagram-frontend bw120/udagram-frontend:latest
 
 after_success:
-  - echo "DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push bw120/udagram-api-feed
   - docker push bw120/udagram-api-users
   - docker push bw120/udagram-frontend
