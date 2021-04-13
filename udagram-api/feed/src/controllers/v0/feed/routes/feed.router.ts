@@ -37,6 +37,10 @@ router.get('/', async (req: Request, res: Response) => {
   res.send(items);
 });
 
+router.get("/health", (req, res, next) => {
+  res.status(200).send("Hello! I'm doing fine!");
+});
+
 // Get a feed resource
 router.get('/:id',
     async (req: Request, res: Response) => {
@@ -79,5 +83,4 @@ router.post('/',
       savedItem.url = AWS.getGetSignedUrl(savedItem.url);
       res.status(201).send(savedItem);
     });
-
 export const FeedRouter: Router = router;

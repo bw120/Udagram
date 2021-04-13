@@ -35,7 +35,6 @@ import {V0_USER_MODELS} from './controllers/v0/model.index';
     res.send( '/api/v0/users' );
   } );
 
-
   // Start the Server
   app.listen( port, () => {
     console.log( `server running ${config.url}:${port}` );
