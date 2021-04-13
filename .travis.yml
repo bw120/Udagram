@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - 13
-
+env:
+ - TAG=TAG=$(git log -1 --pretty=%h)
 services:
   - docker
 
@@ -17,22 +18,22 @@ script:
 # build feed API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/feed && npm install && npm run build
   - docker build -t udagram-api-feed .
-  - docker tag udagram-api-feed bw120/udagram-api-feed:latest
+  - docker tag udagram-api-feed bw120/udagram-api-feed:$TRAVIS_COMMIT
 
 # build users API container
   - cd $TRAVIS_BUILD_DIR/udagram-api/users && npm install && npm run build
   - docker build -t udagram-api-users .
-  - docker tag udagram-api-users bw120/udagram-api-users:latest
+  - docker tag udagram-api-users bw120/udagram-api-users:$TRAVIS_COMMIT
 
 # build frontend container
   - cd $TRAVIS_BUILD_DIR/udagram-frontend
   - docker build -t udagram-frontend .
-  - docker tag udagram-frontend bw120/udagram-frontend:latest
+  - docker tag udagram-frontend bw120/udagram-frontend:$TRAVIS_COMMIT
 
 # build reverse proxy container
   - cd $TRAVIS_BUILD_DIR/udagram-reverse-proxy
   - docker build -t udagram-reverse-proxy .
-  - docker tag udagram-frontend bw120/udagram-reverse-proxy:latest
+  - docker tag udagram-frontend bw120/udagram-reverse-proxy:$TRAVIS_COMMIT
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
