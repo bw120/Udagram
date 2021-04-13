@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: udagram-frontend
   labels:
-    app: udagram-frontend
+    service: udagram-frontend
+  name: udagram-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: uudagram-frontend
+      app: udagram-frontend
   template:
     metadata:
       labels:
@@ -25,11 +25,18 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
-        ports:
-        - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 3
-          periodSeconds: 3
+        env:
+          - name: URL
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: URL
+        volumeMounts:
+          - name: aws-secret
+            mountPath: "~/.aws/"
+            readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret

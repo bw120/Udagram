@@ -1,18 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: reverseproxy
-  name: reverseproxy
+    service: udagram-reverseproxy
+  name: udagram-reverseproxy
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-reverseproxy
   template:
     metadata:
       labels:
-        service: reverseproxy
+        app: udagram-reverseproxy
     spec:
       containers:
-      - image: bw120/udagram-reverseproxy
+      - image: bw120/udagram-reverse-proxy
         name: udagram-reverseproxy
         imagePullPolicy: Always
         resources:
