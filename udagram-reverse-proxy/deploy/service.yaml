@@ -4,10 +4,15 @@ metadata:
   labels:
     service: reverseproxy
   name: udagram-reverseproxy
+  namespace: default
 spec:
   ports:
   - name: "8080"
     port: 8080
     targetPort: 8080
+  - name: "80"
+    port: 80
+    targetPort: 80
   selector:
     service: reverseproxy
+  type: ClusterIP
