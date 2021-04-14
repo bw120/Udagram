@@ -2,4 +2,5 @@ FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["/bin/sh"]
+EXPOSE 8080
+EXPOSE 80

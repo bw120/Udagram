@@ -15,7 +15,7 @@ spec:
         app: udagram-reverseproxy
     spec:
       containers:
-      - image: bw120/udagram-reverse-proxy:08ce2c21d15791622d46577389cd7ba747cac470
+      - image: bw120/udagram-reverse-proxy:18
         name: udagram-reverseproxy
         imagePullPolicy: Always
         resources:
