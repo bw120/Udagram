@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 RUN npm install -g @ionic/cli
 RUN npm install
-RUN npm run build
+RUN ionic build --prod
 
 # nginx for serving content
 FROM nginx:alpine
