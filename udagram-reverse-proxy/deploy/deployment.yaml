@@ -15,7 +15,7 @@ spec:
         app: udagram-reverseproxy
     spec:
       containers:
-      - image: bw120/udagram-reverse-proxy:18
+      - image: bw120/udagram-reverse-proxy:latest
         name: udagram-reverseproxy
         imagePullPolicy: Always
         resources:
@@ -27,6 +27,9 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 8080
+          name: api
+        - containerPort: 80
+          name: frontend
       restartPolicy: Always
 
 

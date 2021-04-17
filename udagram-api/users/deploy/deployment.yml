@@ -18,6 +18,14 @@ spec:
         - image: bw120/udagram-api-users
           name: udagram-api-users
           imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: api/v0/feed/health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
           resources:
             requests:
               memory: "64Mi"

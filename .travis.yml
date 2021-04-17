@@ -33,7 +33,7 @@ script:
 # build reverse proxy container
   - cd $TRAVIS_BUILD_DIR/udagram-reverse-proxy
   - docker build -t udagram-reverse-proxy .
-  - docker tag udagram-frontend bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER
+  - docker tag udagram-reverse-proxy bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
