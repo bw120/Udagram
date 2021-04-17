@@ -6,6 +6,13 @@ env:
 services:
   - docker
 
+before_install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
+
 # Pre-testing installs
 install:
   - echo "nothing needs to be installed"
@@ -36,8 +43,16 @@ script:
   - docker tag udagram-reverse-proxy bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER
 
 after_success:
+# push images to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push bw120/udagram-api-feed
   - docker push bw120/udagram-api-users
   - docker push bw120/udagram-frontend
   - docker push bw120/udagram-reverse-proxy
+
+# deploy to kubernetes
+  - kubectl get pods
+  - kubectl set image deployments/udagram-api-feed udagram-api-feed=bw120/udagram-api-feed:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-api-users udagram-api-users=bw120/udagram-api-users:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-frontend udagram-frontend=bw120/udagram-frontend:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-reverseproxy udagram-reverseproxy=bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER

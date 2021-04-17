@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: udagram-frontend
-        image: bw120/udagram-frontend:24
+        image: bw120/udagram-frontend:25
         imagePullPolicy: Always
         resources:
           requests:
