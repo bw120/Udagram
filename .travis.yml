@@ -1,0 +1,56 @@
+language: node_js
+node_js:
+  - 13
+env:
+ - TAG=TAG=$(git log -1 --pretty=%h)
+services:
+  - docker
+
+before_install:
+# setup kubectl & aws
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - unzip awscliv2.zip
+  - sudo ./aws/install
+  - mkdir ${HOME}/.aws
+  - echo "$AWS_PROFILE_B64" | base64 --decode > ${HOME}/.aws/credentials
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
+
+script:
+# build feed API container
+  - cd $TRAVIS_BUILD_DIR/udagram-api/feed && npm install && npm run build
+  - docker build -t udagram-api-feed .
+  - docker tag udagram-api-feed bw120/udagram-api-feed:$TRAVIS_BUILD_NUMBER
+
+# build users API container
+  - cd $TRAVIS_BUILD_DIR/udagram-api/users && npm install && npm run build
+  - docker build -t udagram-api-users .
+  - docker tag udagram-api-users bw120/udagram-api-users:$TRAVIS_BUILD_NUMBER
+
+# build frontend container
+  - cd $TRAVIS_BUILD_DIR/udagram-frontend
+  - docker build -t udagram-frontend .
+  - docker tag udagram-frontend bw120/udagram-frontend:$TRAVIS_BUILD_NUMBER
+
+# build reverse proxy container
+  - cd $TRAVIS_BUILD_DIR/udagram-reverse-proxy
+  - docker build -t udagram-reverse-proxy .
+  - docker tag udagram-reverse-proxy bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER
+
+after_success:
+# push images to docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push bw120/udagram-api-feed
+  - docker push bw120/udagram-api-users
+  - docker push bw120/udagram-frontend
+  - docker push bw120/udagram-reverse-proxy
+
+# deploy to kubernetes
+  - kubectl get pods
+  - kubectl set image deployments/udagram-api-feed udagram-api-feed=bw120/udagram-api-feed:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-api-users udagram-api-users=bw120/udagram-api-users:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-frontend udagram-frontend=bw120/udagram-frontend:$TRAVIS_BUILD_NUMBER
+  - kubectl set image deployments/udagram-reverseproxy udagram-reverseproxy=bw120/udagram-reverse-proxy:$TRAVIS_BUILD_NUMBER
