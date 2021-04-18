@@ -1,3 +1,4 @@
+kubectl describe hpa
 Name:                                                  reverseproxy
 Namespace:                                             default
 Labels:                                                <none>
@@ -5,19 +6,20 @@ Annotations:                                           <none>
 CreationTimestamp:                                     Sat, 17 Apr 2021 18:55:57 -0400
 Reference:                                             Deployment/reverseproxy
 Metrics:                                               ( current / target )
-  resource cpu on pods  (as a percentage of request):  <unknown> / 50%
+  resource cpu on pods  (as a percentage of request):  0% (1m) / 50%
 Min replicas:                                          1
 Max replicas:                                          3
-Deployment pods:                                       1 current / 0 desired
+Deployment pods:                                       1 current / 1 desired
 Conditions:
-  Type           Status  Reason                   Message
-  ----           ------  ------                   -------
-  AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
-  ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type            Status  Reason            Message
+  ----            ------  ------            -------
+  AbleToScale     True    ReadyForNewScale  recommended size matches current size
+  ScalingActive   True    ValidMetricFound  the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  True    TooFewReplicas    the desired replica count is less than the minimum replica count
 Events:
-  Type     Reason                   Age                   From                       Message
-  ----     ------                   ----                  ----                       -------
-  Warning  FailedGetResourceMetric  87s (x3619 over 15h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type     Reason                   Age                     From                       Message
+  ----     ------                   ----                    ----                       -------
+  Warning  FailedGetResourceMetric  2m24s (x4351 over 18h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
 
 
 Name:                                                  udagram-api-feed
@@ -27,19 +29,20 @@ Annotations:                                           <none>
 CreationTimestamp:                                     Sat, 17 Apr 2021 18:54:56 -0400
 Reference:                                             Deployment/udagram-api-feed
 Metrics:                                               ( current / target )
-  resource cpu on pods  (as a percentage of request):  <unknown> / 50%
+  resource cpu on pods  (as a percentage of request):  0% (1m) / 50%
 Min replicas:                                          2
 Max replicas:                                          3
-Deployment pods:                                       2 current / 0 desired
+Deployment pods:                                       2 current / 2 desired
 Conditions:
-  Type           Status  Reason                   Message
-  ----           ------  ------                   -------
-  AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
-  ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type            Status  Reason            Message
+  ----            ------  ------            -------
+  AbleToScale     True    ReadyForNewScale  recommended size matches current size
+  ScalingActive   True    ValidMetricFound  the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  True    TooFewReplicas    the desired replica count is less than the minimum replica count
 Events:
   Type     Reason                   Age                     From                       Message
   ----     ------                   ----                    ----                       -------
-  Warning  FailedGetResourceMetric  2m27s (x3619 over 15h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Warning  FailedGetResourceMetric  3m26s (x4351 over 18h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
 
 
 Name:                                                  udagram-api-users
@@ -49,19 +52,20 @@ Annotations:                                           <none>
 CreationTimestamp:                                     Sat, 17 Apr 2021 18:55:25 -0400
 Reference:                                             Deployment/udagram-api-users
 Metrics:                                               ( current / target )
-  resource cpu on pods  (as a percentage of request):  <unknown> / 50%
+  resource cpu on pods  (as a percentage of request):  0% (1m) / 50%
 Min replicas:                                          1
 Max replicas:                                          3
-Deployment pods:                                       1 current / 0 desired
+Deployment pods:                                       1 current / 1 desired
 Conditions:
-  Type           Status  Reason                   Message
-  ----           ------  ------                   -------
-  AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
-  ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type            Status  Reason            Message
+  ----            ------  ------            -------
+  AbleToScale     True    ReadyForNewScale  recommended size matches current size
+  ScalingActive   True    ValidMetricFound  the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  True    TooFewReplicas    the desired replica count is less than the minimum replica count
 Events:
-  Type     Reason                   Age                    From                       Message
-  ----     ------                   ----                   ----                       -------
-  Warning  FailedGetResourceMetric  118s (x3619 over 15h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type     Reason                   Age                     From                       Message
+  ----     ------                   ----                    ----                       -------
+  Warning  FailedGetResourceMetric  2m55s (x4351 over 18h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
 
 
 Name:                                                  udagram-frontend
@@ -71,16 +75,17 @@ Annotations:                                           <none>
 CreationTimestamp:                                     Sat, 17 Apr 2021 18:55:45 -0400
 Reference:                                             Deployment/udagram-frontend
 Metrics:                                               ( current / target )
-  resource cpu on pods  (as a percentage of request):  <unknown> / 50%
+  resource cpu on pods  (as a percentage of request):  0% (1m) / 50%
 Min replicas:                                          1
 Max replicas:                                          3
-Deployment pods:                                       1 current / 0 desired
+Deployment pods:                                       1 current / 1 desired
 Conditions:
-  Type           Status  Reason                   Message
-  ----           ------  ------                   -------
-  AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
-  ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type            Status  Reason            Message
+  ----            ------  ------            -------
+  AbleToScale     True    ReadyForNewScale  recommended size matches current size
+  ScalingActive   True    ValidMetricFound  the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  True    TooFewReplicas    the desired replica count is less than the minimum replica count
 Events:
-  Type     Reason                   Age                   From                       Message
-  ----     ------                   ----                  ----                       -------
-  Warning  FailedGetResourceMetric  88s (x3620 over 15h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
+  Type     Reason                   Age                     From                       Message
+  ----     ------                   ----                    ----                       -------
+  Warning  FailedGetResourceMetric  2m40s (x4351 over 18h)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)
